@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../controllers/home_controller.dart';
@@ -12,6 +12,8 @@ class HomeView extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
+    Color cnt = Color(0xff612FAB);
+    Color fDays = Color(0xff48319D);
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -25,6 +27,7 @@ class HomeView extends GetView<HomeController> {
           ),
           child: Stack(
             children: [
+              //ambil cuaca dari lokasi
               Positioned(
                 top: Get.height * 0.1,
                 left: 0,
@@ -35,6 +38,7 @@ class HomeView extends GetView<HomeController> {
                     : controller.currentWeather.isEmpty
                         ? Text('Data tidak ada')
                         : Column(
+                            mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
@@ -75,9 +79,227 @@ class HomeView extends GetView<HomeController> {
                                     color: Colors.white,
                                     fontWeight: FontWeight.w400),
                               ),
+                              Expanded(
+                                child: Stack(children: [
+                                  Center(
+                                    child: Padding(
+                                      padding: EdgeInsets.only(bottom: 100),
+                                      child: Image.asset('assets/santa.png',
+                                          height: Get.width * 0.8,
+                                          width: Get.width * 0.8),
+                                    ),
+                                  ),
+                                  //animasi container
+                                  Obx(
+                                    () => AnimatedPositioned(
+                                      duration: Duration(milliseconds: 1000),
+                                      top: controller.topPosition.value,
+                                      left: 0,
+                                      right: 0,
+                                      child: AnimatedContainer(
+                                        duration: Duration(milliseconds: 1000),
+                                        height:
+                                            controller.topPosition.value == 500
+                                                ? 200
+                                                : 200,
+                                        decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                            colors: [
+                                              cnt.withOpacity(0.5),
+                                              Colors.transparent
+                                            ],
+                                            begin: Alignment.topCenter,
+                                            end: Alignment.bottomCenter,
+                                          ),
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(50),
+                                            topRight: Radius.circular(50),
+                                          ),
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            //toggle
+                                            GestureDetector(
+                                              onTap: () =>
+                                                  controller.toggleSheet(),
+                                              child: Padding(
+                                                padding:
+                                                    EdgeInsets.only(top: 10),
+                                                child: Container(
+                                                  width: 50,
+                                                  height: 5,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.black
+                                                        .withOpacity(0.3),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            40),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            //Prediksi 5 hari kedepan
+                                            Expanded(
+                                              child: Obx(() {
+                                                List<dynamic> forecastDays =
+                                                    controller.forecastWeather[
+                                                            'forecast']
+                                                        ['forecastday'];
+                                                return Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 30),
+                                                  child: ListView.builder(
+                                                    shrinkWrap: true,
+                                                    scrollDirection:
+                                                        Axis.horizontal,
+                                                    itemCount:
+                                                        forecastDays.length,
+                                                    itemBuilder:
+                                                        (context, index) {
+                                                      var day =
+                                                          forecastDays[index];
+                                                      return Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: SizedBox(
+                                                          height:
+                                                              Get.height * 0.1,
+                                                          width:
+                                                              Get.width * 0.2,
+                                                          child: Card(
+                                                            color: fDays
+                                                                .withOpacity(
+                                                                    0.3),
+                                                            elevation: 8,
+                                                            margin:
+                                                                const EdgeInsets
+                                                                    .symmetric(
+                                                                    horizontal:
+                                                                        3),
+                                                            shape: RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            99)),
+                                                            child: Container(
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                gradient:
+                                                                    LinearGradient(
+                                                                  colors: [
+                                                                    cnt.withOpacity(
+                                                                        0.8),
+                                                                    Colors
+                                                                        .purple
+                                                                        .withOpacity(
+                                                                            0.2),
+                                                                  ],
+                                                                  begin: Alignment
+                                                                      .topCenter,
+                                                                  end: Alignment
+                                                                      .bottomCenter,
+                                                                ),
+                                                                borderRadius: BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
+                                                                            99)),
+                                                                boxShadow: [
+                                                                  BoxShadow(
+                                                                    color: Colors
+                                                                        .black
+                                                                        .withOpacity(
+                                                                            0.3),
+                                                                    blurRadius:
+                                                                        2,
+                                                                    spreadRadius:
+                                                                        2,
+                                                                    offset:
+                                                                        Offset(
+                                                                            0,
+                                                                            2),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              child: Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .all(
+                                                                        5.0),
+                                                                child: Center(
+                                                                  child: Column(
+                                                                    spacing: 8,
+                                                                    mainAxisSize:
+                                                                        MainAxisSize
+                                                                            .min,
+                                                                    children: [
+                                                                      Text(
+                                                                        DateFormat('EEE')
+                                                                            .format(DateTime.parse(day['date']))
+                                                                            .toUpperCase(),
+                                                                        style:
+                                                                            TextStyle(
+                                                                          fontWeight:
+                                                                              FontWeight.bold,
+                                                                          fontSize:
+                                                                              16,
+                                                                          color:
+                                                                              Colors.white,
+                                                                        ),
+                                                                      ),
+                                                                      Image
+                                                                          .asset(
+                                                                        controller.getWeatherIcon(
+                                                                            controller.currentWeather["current"]["temp_c"],
+                                                                            controller.currentWeather["current"]["condition"]["text"]),
+                                                                        width:
+                                                                            20,
+                                                                        height:
+                                                                            20,
+                                                                      ),
+                                                                      Text(
+                                                                        "${day['day']['avgtemp_c']}°C",
+                                                                        style: const TextStyle(
+                                                                            fontSize:
+                                                                                14,
+                                                                            color:
+                                                                                Colors.white),
+                                                                      ),
+                                                                      Text(
+                                                                        controller.getWeatherStatus(
+                                                                            controller.currentWeather["current"]["temp_c"],
+                                                                            controller.currentWeather["current"]["condition"]["text"]),
+                                                                        style: TextStyle(
+                                                                            fontSize: Get.size.height *
+                                                                                0.0150,
+                                                                            color:
+                                                                                Colors.white,
+                                                                            fontWeight: FontWeight.w400),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      );
+                                                    },
+                                                  ),
+                                                );
+                                              }),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ]),
+                              )
                             ],
                           )),
-              )
+              ),
             ],
           ),
         ),

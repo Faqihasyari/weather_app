@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import '../../../../services/weather_services.dart';
@@ -8,6 +9,7 @@ class HomeController extends GetxController {
   var currentWeather = {}.obs;
   var forecastWeather = {}.obs;
   var isLoading = true.obs;
+  var topPosition = (Get.width * 1.6 / 2).obs;
 
   /// ✅ Ambil lokasi pengguna
   Future<Position> getUserLocation() async {
@@ -55,6 +57,21 @@ class HomeController extends GetxController {
     }
   }
 
+  /// ✅ Ambil prakiraan cuaca beberapa hari ke depan berdasarkan lokasi
+  Future<void> fetchForecastWeatherByLocation(int days) async {
+    try {
+      isLoading(true);
+      Position position = await getUserLocation();
+      var forecast = await weatherService.getForecastWeather(
+          "${position.latitude},${position.longitude}", days);
+      forecastWeather.value = forecast;
+    } catch (e) {
+      Get.snackbar('Error', 'Gagal mengambil data prakiraan cuaca');
+    } finally {
+      isLoading(false);
+    }
+  }
+
   String getWeatherIcon(double temp, String condition) {
     if (condition.contains("Rain")) {
       return 'assets/rainy.png';
@@ -62,6 +79,8 @@ class HomeController extends GetxController {
       return 'assets/cloudy.png';
     } else if (temp > 30) {
       return 'assets/sunny.png';
+    } else if (condition.contains("Sunny") || condition.contains("Clear")) {
+      return 'assets/storm.png';
     } else {
       return 'assets/storm.png';
     }
@@ -81,9 +100,20 @@ class HomeController extends GetxController {
     }
   }
 
+  void toggleSheet() {
+    if (topPosition.value == Get.width * 1.6 / 2) {
+      // Turunkan container, sisakan 1/4 bagian
+      topPosition.value = Get.height * 0.650;
+    } else {
+      // Naikkan kembali
+      topPosition.value = Get.width * 1.6 / 2;
+    }
+  }
+
   @override
   void onInit() {
     super.onInit();
     fetchWeatherByLocation(); // Ambil cuaca berdasarkan lokasi
+    fetchForecastWeatherByLocation(5);
   }
 }
