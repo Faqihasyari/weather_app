@@ -73,16 +73,14 @@ class HomeController extends GetxController {
   }
 
   String getWeatherIcon(double temp, String condition) {
-    if (condition.contains("Rain")) {
-      return 'assets/rainy.png';
-    } else if (condition.contains("Cloud")) {
-      return 'assets/cloudy.png';
-    } else if (temp > 30) {
-      return 'assets/sunny.png';
-    } else if (condition.contains("Sunny") || condition.contains("Clear")) {
-      return 'assets/storm.png';
+    if (temp > 30) {
+      return 'assets/sunny.png'; // Lebih dari 30°C = Cerah
+    } else if (temp >= 25 && temp <= 30) {
+      return 'assets/cloudy.png'; // 25-30°C = Berawan
+    } else if (temp >= 20 && temp < 25) {
+      return 'assets/rainy.png'; // 20-24°C = Hujan
     } else {
-      return 'assets/storm.png';
+      return 'assets/storm.png'; // Di bawah 20°C = Badai/Petir
     }
   }
 

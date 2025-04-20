@@ -270,12 +270,17 @@ class HomeView extends GetView<HomeController> {
                                                                         controller.getWeatherStatus(
                                                                             controller.currentWeather["current"]["temp_c"],
                                                                             controller.currentWeather["current"]["condition"]["text"]),
-                                                                        style: TextStyle(
-                                                                            fontSize: Get.size.height *
-                                                                                0.0150,
-                                                                            color:
-                                                                                Colors.white,
-                                                                            fontWeight: FontWeight.w400),
+                                                                        style:
+                                                                            TextStyle(
+                                                                          fontSize:
+                                                                              Get.size.height * 0.0150,
+                                                                          color:
+                                                                              Colors.white,
+                                                                          fontWeight:
+                                                                              FontWeight.w400,
+                                                                        ),
+                                                                        textAlign:
+                                                                            TextAlign.center,
                                                                       ),
                                                                     ],
                                                                   ),
