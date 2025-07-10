@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class WeatherServices {
-  final String apiKey = 'ca9479a48562466597182136250103';
+  final String apiKey = '17fa1b61029c42c5961150609251007';
   final String baseUrl = 'https://api.weatherapi.com/v1';
 
   /// ✅ Mengambil cuaca saat ini berdasarkan nama kota

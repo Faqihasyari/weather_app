@@ -74,24 +74,24 @@ class HomeController extends GetxController {
 
   String getWeatherIcon(double temp, String condition) {
     if (temp > 30) {
-      return 'assets/sunny.png'; // Lebih dari 30°C = Cerah
-    } else if (temp >= 25 && temp <= 30) {
-      return 'assets/cloudy.png'; // 25-30°C = Berawan
-    } else if (temp >= 20 && temp < 25) {
-      return 'assets/rainy.png'; // 20-24°C = Hujan
+      return 'assets/sunny.png';
+    } else if (temp >= 25) {
+      return 'assets/cloudy.png';
+    } else if (temp >= 20) {
+      return 'assets/rainy.png';
     } else {
-      return 'assets/storm.png'; // Di bawah 20°C = Badai/Petir
+      return 'assets/storm.png';
     }
   }
 
   String getWeatherStatus(double temp, String text) {
-    if (temp >= 30) {
+    if (temp > 30) {
       return 'Clear';
     } else if (temp >= 28) {
       return 'Partly Cloudy';
     } else if (temp >= 24) {
-      return 'Mostly Cloudy ';
-    } else if (temp >= 21) {
+      return 'Cloudy';
+    } else if (temp >= 20) {
       return 'Rainy';
     } else {
       return 'Storming';
@@ -99,12 +99,12 @@ class HomeController extends GetxController {
   }
 
   void toggleSheet() {
-    if (topPosition.value == Get.width * 1.6 / 2) {
+    if (topPosition.value == Get.width * 1.3 / 2) {
       // Turunkan container, sisakan 1/4 bagian
       topPosition.value = Get.height * 0.650;
     } else {
       // Naikkan kembali
-      topPosition.value = Get.width * 1.6 / 2;
+      topPosition.value = Get.width * 1.3 / 2;
     }
   }
 

@@ -250,9 +250,15 @@ class HomeView extends GetView<HomeController> {
                                                                       ),
                                                                       Image
                                                                           .asset(
-                                                                        controller.getWeatherIcon(
-                                                                            controller.currentWeather["current"]["temp_c"],
-                                                                            controller.currentWeather["current"]["condition"]["text"]),
+                                                                        controller
+                                                                            .getWeatherIcon(
+                                                                          day["day"]
+                                                                              [
+                                                                              "avgtemp_c"],
+                                                                          day["day"]["condition"]
+                                                                              [
+                                                                              "text"],
+                                                                        ),
                                                                         width:
                                                                             20,
                                                                         height:
@@ -267,9 +273,15 @@ class HomeView extends GetView<HomeController> {
                                                                                 Colors.white),
                                                                       ),
                                                                       Text(
-                                                                        controller.getWeatherStatus(
-                                                                            controller.currentWeather["current"]["temp_c"],
-                                                                            controller.currentWeather["current"]["condition"]["text"]),
+                                                                        controller
+                                                                            .getWeatherStatus(
+                                                                          day["day"]
+                                                                              [
+                                                                              "avgtemp_c"], // ✅ pakai data dari forecast harian
+                                                                          day["day"]["condition"]
+                                                                              [
+                                                                              "text"],
+                                                                        ),
                                                                         style:
                                                                             TextStyle(
                                                                           fontSize:
@@ -314,86 +326,3 @@ class HomeView extends GetView<HomeController> {
 }
 
 
-//prediksi 5 hari kedepan 
-// class HomeView extends GetView<HomeController> {
-//   const HomeView({super.key});
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('HomeView'),
-//         centerTitle: true,
-//       ),
-//       body: Center(child: Obx(() {
-//         if (controller.isLoading.value) {
-//           return Center(child: CircularProgressIndicator());
-//         }
-
-//         if (controller.forecastWeather.isEmpty) {
-//           return Center(child: Text("Data cuaca tidak tersedia"));
-//         }
-
-//         List<dynamic> forecastDays =
-//             controller.forecastWeather['forecast']['forecastday'] ?? [];
-
-//         return ListView.builder(
-//           itemCount: forecastDays.length,
-//           itemBuilder: (context, index) {
-//             var day = forecastDays[index];
-
-//             return Card(
-//               child: ListTile(
-//                 leading:
-//                     Image.network("https:${day['day']['condition']['icon']}"),
-//                 title: Text("${day['date']}"),
-//                 subtitle: Text(
-//                     "Suhu: ${day['day']['avgtemp_c']}°C, ${day['day']['condition']['text']}"),
-//               ),
-//             );
-//           },
-//         );
-//       })),
-//     );
-//   }
-// }
-
-
-//suhu saat ini 
-//class HomeView extends GetView<HomeController> {
-//   const HomeView({super.key});
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('HomeView'),
-//         centerTitle: true,
-//       ),
-//       body: Center(
-//         child: Obx(
-//           () => controller.isLoading.value
-//               ? const CircularProgressIndicator()
-//               : controller.currentWeather.isEmpty
-//                   ? const Text("Data cuaca tidak tersedia")
-//                   : Column(
-//                       mainAxisAlignment: MainAxisAlignment.center,
-//                       children: [
-//                         Text(
-//                           'Cuaca di ${controller.currentWeather["location"]["name"]}',
-//                           style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-//                         ),
-//                         Text(
-//                           'Suhu: ${controller.currentWeather["current"]["temp_c"]}°C',
-//                           style: const TextStyle(fontSize: 18),
-//                         ),
-//                         Text(
-//                           'Suhu: ${controller.forecastWeather["current"]["temp_c"]}°C',
-//                           style: const TextStyle(fontSize: 18),
-//                         ),
-//                       ],
-//                     ),
-//         ),
-//       ),
-//     );
-    
-//   }
-// }
