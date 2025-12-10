@@ -32,21 +32,6 @@ Background berubah otomatis tergantung kondisi cuaca:
 
 ---
 
-## ❗ Kenapa suhu utama berbeda dengan suhu di prediksi pertama?
-
-Perbedaan ini **normal** karena:
-
-- **`current.temp_c`** = suhu real-time saat ini  
-- **Hourly forecast** memberikan data **per jam**, tetapi **tidak menampilkan jam yang sudah lewat**
-
-Contoh:  
-Sekarang jam 02:13 → WeatherAPI hanya memberikan data mulai jam 03:00  
-→ suhu jam 03:00 bisa 21.5°C meski suhu saat ini 16.2°C
-
-Ini bukan error aplikasi — memang begitu cara kerja WeatherAPI.
-
----
-
 ## 🛠️ Teknologi yang Digunakan
 
 | Teknologi | Fungsi |
